@@ -11,12 +11,15 @@ const resolvedChildATitle: ResolveFn<string> = () => Promise.resolve('child a');
 export const routes: Routes = [
   {
     path: 'first-component',
-    title: 'First component',
-    component: FirstComponent, // this component has another <router-outlet /> in its template
-    children: [
+    loadChildren: () => [
+      {
+        path: '',
+        title: 'First component',
+        component: FirstComponent
+      },
       {
         path: 'child-a', // child route path
-        title: resolvedChildATitle,
+        title: 'child a',
         component: ChildAComponent // child route component that the route renders
       },
       {
@@ -25,7 +28,7 @@ export const routes: Routes = [
         component: ChildBComponent // child route component that the route renders
       }
     ]
-  }, // path to FirstComponent
+  }, // path to FirstComponent, // path to FirstComponent
   { path: 'second-component', title: 'Second component', component: SecondComponent }, // path to SecondComponent
   { path: '',   redirectTo: '/first-component', pathMatch: 'full' }, // redirect to FirstComponent
   { path: '**', title: 'Page not found', component: PageNotFoundComponent } // wildcard route to PageNotFoundComponent
